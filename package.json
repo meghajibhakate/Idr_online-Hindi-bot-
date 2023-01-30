@@ -1,0 +1,28 @@
+{
+  "name": "my-first-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bot.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Megha",
+  "license": "ISC",
+  "dependencies": {
+    "fs-extra": "^11.1.0",
+    "grammy": "^1.13.0",
+    "node-cron": "^3.0.2",
+    "rss-parser": "^3.12.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/meghajibhakate/Idr_online-Hindi-bot-.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/meghajibhakate/Idr_online-Hindi-bot-/issues"
+  },
+  "homepage": "https://github.com/meghajibhakate/Idr_online-Hindi-bot-#readme"
+}
