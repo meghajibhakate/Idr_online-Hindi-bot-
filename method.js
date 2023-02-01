@@ -8,7 +8,6 @@ import{updatePost, getPost} from "./db.js"
 
 let parser = new Parser()
 
-
 export async function getWebsitePosts() {
   let feed = await parser.parseURL('https://idronline.org/feed/');
   // console.log(feed.items);
