@@ -11,10 +11,11 @@ export const bot = new Bot( process.env.BOT_TOKEN_KEY);// <-- put your unique to
 
 import cron from "node-cron"//This node cron helps with creating and managing schedules.
 
-// I getPosts function from method.js 
+// Importing getPosts function from method.js 
 import { getWebsitePosts } from './method.js';
-import { addChat,  } from "./db.js";
 
+// Importing  addChat function from ./db.js 
+import { addChat,  } from "./db.js";
 
 //It's telling the computer to run a certain set of instructions whenever someone types the "start" command in bot.
 bot.command("start", async ctx => {
@@ -43,11 +44,10 @@ bot.on("my_chat_member", async ctx => {
             )
              await addChat(ctx.myChatMember.chat.id, ctx.myChatMember.chat.title, ctx.myChatMember.chat.type);
 
-             await ctx.leaveChat();
+            //  await ctx.leaveChat();
 
         }
     }
-    // addChat(ctx.myChatMember.chat.id)
 })
 
 getWebsitePosts()

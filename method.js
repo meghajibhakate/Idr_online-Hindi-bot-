@@ -1,11 +1,9 @@
 
 import Parser from "rss-parser";
 import { bot } from "./bot.js";
-import fs from 'fs';
+// import fs from 'fs';
 import { InlineKeyboard } from 'grammy';
 import { updatePost, getPost, getChats } from "./db.js"
-
-
 let parser = new Parser()
 
 export async function getWebsitePosts() {
@@ -19,8 +17,7 @@ export async function getWebsitePosts() {
   // let jsondata = JSON.parse(data)
   let data = await getPost();
   let lastpost = data.totalpost;
-  let updateNum = 0
-
+  let updateNum = 0;
   if (latestnum != lastpost) {
     updateNum = latestnum - lastpost;
     console.log(updateNum);
@@ -28,15 +25,11 @@ export async function getWebsitePosts() {
     await updatePost(latestnum);
   }
 
-
-
-
-
   const allChats = await getChats();
   console.log(allChats)
 
   for (let i = 0; i < updateNum; i++) {
-    for (let chat of chatsArray) {
+    for (let chat of allChats) {
       // taking the all chat id's here
       await bot.api.sendMessage(chat._id, ` <b><a href="${feed.items[i].link}">${feed.items[i].title}</a></b> 
                 \n by:- <i>${feed.items[i].creator}</i> 
@@ -46,14 +39,12 @@ export async function getWebsitePosts() {
           parse_mode: "HTML",
           disable_web_page_preview: true,
           reply_markup: new InlineKeyboard().url(
-            "Read Post",
+            "Read पोस्ट",
             `${feed.items[i].link}`,
           )
         }
       )
     }
-
-
     // await bot.api.sendMessage(5636179119, ` <b><a href="${feed.items[i].link}">${feed.items[i].title}</a></b> 
     // \n by:- <i>${feed.items[i].creator}</i> 
     // \n\n <i>${feed.items[i].content.replace(/<[^>]*>?/gm, '').slice(0, 300)}...<a href="${feed.items[i].link}">Read More</a></i>`, {
@@ -63,10 +54,9 @@ export async function getWebsitePosts() {
     //     "Read Post",
     //     `${feed.items[i].link}`,
     //   )
+
+  
     // })
-
-
-
 
   }
 }
