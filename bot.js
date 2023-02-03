@@ -1,6 +1,8 @@
 //here we are Importing a BOT and InlineKeyboard from Grammy library
 import { Bot, InlineKeyboard } from 'grammy';
+
 import * as dotenv from 'dotenv'
+
 //Colling the dotenv.config
 dotenv.config()
 
@@ -44,13 +46,13 @@ bot.on("my_chat_member", async ctx => {
             )
              await addChat(ctx.myChatMember.chat.id, ctx.myChatMember.chat.title, ctx.myChatMember.chat.type);
 
-            //  await ctx.leaveChat();
-
         }
     }
 })
 
 getWebsitePosts()
+// scheduling timing for updateNum
+//  Taking update in every 10 minutes.....
 cron.schedule('*/10 * * * *', () => {
 
 });

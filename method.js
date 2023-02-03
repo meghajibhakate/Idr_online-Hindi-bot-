@@ -26,15 +26,14 @@ export async function getWebsitePosts() {
   }
 
   const allChats = await getChats();
-  console.log(allChats)
+  // console.log(allChats)
 
   for (let i = 0; i < updateNum; i++) {
     for (let chat of allChats) {
       // taking the all chat id's here
       await bot.api.sendMessage(chat._id, ` <b><a href="${feed.items[i].link}">${feed.items[i].title}</a></b> 
                 \n by:- <i>${feed.items[i].creator}</i> 
-                \n\n <i>${feed.items[i].content.replace(/<[^>]*>?/gm, '').slice(0, 300)}...
-                <a href="${feed.items[i].link}">Read More</a></i>`,
+                \n\n <i>${feed.items[i].content.replace(/<[^>]*>?/gm, '').slice(0, 300)}...<a href="${feed.items[i].link}">Read More</a></i>`,
         {
           parse_mode: "HTML",
           disable_web_page_preview: true,
