@@ -23,25 +23,6 @@ async function main() {
 const db = await main();
 
 const posts = db.collection("post")
-// const chats = db.collection("chats")
-
-
-// export async function addPost(num) {
-
-//     // if not, add to db.
-//     //Here I am inserting data first time because now the data is empty
-//     await posts.insertOne({
-//         _id: "postData",
-//         totalpost: num
-//     }).then(() => {
-//         return true;
-//     }).catch((er) => {
-//         console.log(`Unable to add posts Number in DB: ${er}`);
-//         return false;
-//     });
-// }
-// // await addPost();
-
 
 
 export async function updatePost(num) {
@@ -99,7 +80,7 @@ export async function addChat(chatId, chatName,  chaType) {
 export async function getChats(){
     const allChatsArray = await chats.find({ _id: { $ne: null } }).toArray();
     return allChatsArray;
-    
+
 }
 
 // await getChats();

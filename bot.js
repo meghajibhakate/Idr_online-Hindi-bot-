@@ -1,4 +1,6 @@
-//here we are Importing a BOT and InlineKeyboard from Grammy library
+//here we are Importing a BOT and InlineKeyboard class from Grammy library
+// Bot this is a class
+// InlineKeyboard this is a class
 import { Bot, InlineKeyboard } from 'grammy';
 
 import * as dotenv from 'dotenv'
@@ -7,7 +9,7 @@ import * as dotenv from 'dotenv'
 dotenv.config()
 
 // Create an instance of the `Bot` class and pass your authentication token to it.
-export const bot = new Bot( process.env.BOT_TOKEN_KEY);// <-- put your unique token between the "Token wiil be here"
+export const bot = new Bot( process.env.BOT_TOKEN_KEY);// <-- put your unique token;
 
 // Importing a node cron from "node-cron" library
 
@@ -17,7 +19,7 @@ import cron from "node-cron"//This node cron helps with creating and managing sc
 import { getWebsitePosts } from './method.js';
 
 // Importing  addChat function from ./db.js 
-import { addChat,  } from "./db.js";
+import { addChat} from "./db.js";
 
 //It's telling the computer to run a certain set of instructions whenever someone types the "start" command in bot.
 bot.command("start", async ctx => {
