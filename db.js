@@ -10,6 +10,7 @@ async function main() {
     // Taking URL from MongoDB
     const mongo_url = process.env.MONGODB_URL;
     const client = new MongoClient(mongo_url);
+
     try {
         await client.connect()
         console.log("Connected to DataBase");
@@ -59,7 +60,25 @@ export async function getPost() {
 // 2nd collection *******************
 const chats = db.collection("chats")
 
+// export async function addChat(chatId, chatName,  chaType) {
+//     await chats.insertOne(
+//         {
+//             _id: chatId,
+//             Tital: chatName,
+//             type: chaType
+
+//         }).then(() => {
+//             return true;
+//         }).catch((er) => {
+//             console.log(`Unable to add chatID in DataBase:- ${er}`);
+//             return false;
+//         })
+// }
+
 export async function addChat(chatId, chatName,  chaType) {
+    const item = await chats.findOne({ _id: chatId });
+    if (item) return false;
+
     await chats.insertOne(
         {
             _id: chatId,
@@ -70,11 +89,10 @@ export async function addChat(chatId, chatName,  chaType) {
             return true;
         }).catch((er) => {
             console.log(`Unable to add chatID in DataBase:- ${er}`);
-            // console.log(${er}`);
-
             return false;
         })
 }
+
 
 
 export async function getChats(){
@@ -84,3 +102,17 @@ export async function getChats(){
 }
 
 // await getChats();
+
+export async function removeChat(chatId){
+    // check if same User already exists.
+    const item = await chats.findOne({ _id: chatId });
+    if (!item) return false;
+  
+    // if yes, rem frm db.
+    await chats.deleteOne({
+      _id: chatId
+    }).catch((err) =>{
+        console.log(`Unable to remove chat frm DB: ${err}`);
+    })
+    
+  }
