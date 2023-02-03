@@ -9,7 +9,7 @@ import * as dotenv from 'dotenv'
 dotenv.config()
 
 // Create an instance of the `Bot` class and pass your authentication token to it.
-export const bot = new Bot( process.env.BOT_TOKEN_KEY);// <-- put your unique token;
+export const bot = new Bot(process.env.BOT_TOKEN_KEY);// <-- put your unique token;
 
 // Importing a node cron from "node-cron" library
 
@@ -19,7 +19,7 @@ import cron from "node-cron"//This node cron helps with creating and managing sc
 import { getWebsitePosts } from './method.js';
 
 // Importing  addChat function from ./db.js 
-import { addChat} from "./db.js";
+import { addChat } from "./db.js";
 
 //It's telling the computer to run a certain set of instructions whenever someone types the "start" command in bot.
 bot.command("start", async ctx => {
@@ -40,22 +40,53 @@ bot.command("start", async ctx => {
 
 
 
+// bot.on("my_chat_member", async ctx => {
+//     // console.log(ctx.myChatMember);
+//     if (ctx.myChatMember.new_chat_member.status == "member" && ctx.myChatMember.old_chat_member.status == "left") {
+//         if (bot.botInfo.id == ctx.myChatMember.new_chat_member.user.id) {
+//             await bot.api.sendMessage(ctx.myChatMember.chat.id, "मुझे इस ग्रुप जोड़ने के लिए शुक्रया 🙏 \nयह बोट आपको आपकी पसंदीदा वेबसइट idr से नयी पोस्ट की अपडेट देगा 😊| "
+//             )
+//              await addChat(ctx.myChatMember.chat.id, ctx.myChatMember.chat.title, ctx.myChatMember.chat.type);
+
+//         }
+//     }
+// })
+
+
+
 bot.on("my_chat_member", async ctx => {
-    // console.log(ctx.myChatMember);
-    if (ctx.myChatMember.new_chat_member.status == "member" && ctx.myChatMember.old_chat_member.status == "left") {
-        if (bot.botInfo.id == ctx.myChatMember.new_chat_member.user.id) {
+    //console.log(ctx.myChatMember);
+    if (ctx.myChatMember.chat.type === 'private') {
+        if (ctx.myChatMember.old_chat_member.status === "member" && ctx.myChatMember.new_chat_member.status === "kicked") {
+            //remove user from database
+            await removeChat(ctx.myChatMember.from.id)
+        }
+    } else if (bot.botInfo.id == ctx.myChatMember.new_chat_member.user.id) {
+        // if me then add / remove
+
+        if (ctx.myChatMember.new_chat_member.status == "member" || ctx.myChatMember.new_chat_member.status == "administrator") {
+            // add
+            //if someone add the bot in group                                   //if someone add the bot in channle
             await bot.api.sendMessage(ctx.myChatMember.chat.id, "मुझे इस ग्रुप जोड़ने के लिए शुक्रया 🙏 \nयह बोट आपको आपकी पसंदीदा वेबसइट idr से नयी पोस्ट की अपडेट देगा 😊| "
             )
-             await addChat(ctx.myChatMember.chat.id, ctx.myChatMember.chat.title, ctx.myChatMember.chat.type);
+            await addChat(ctx.myChatMember.chat.id, ctx.myChatMember.chat.title, ctx.myChatMember.chat.type);
+        }
 
+        else if (ctx.myChatMember.new_chat_member.status === "kicked" || ctx.myChatMember.new_chat_member.status === "left") {
+            //remove
+            //if someone remove the bot from group                                        //if someone remove the bot from channle
+
+            await removeChat(ctx.myChatMember.chat.id);
         }
     }
+
 })
 
 getWebsitePosts()
 // scheduling timing for updateNum
 //  Taking update in every 10 minutes.....
 cron.schedule('*/10 * * * *', () => {
+
 
 });
 
