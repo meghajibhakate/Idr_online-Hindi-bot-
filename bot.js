@@ -8,10 +8,10 @@ import * as dotenv from 'dotenv'
 //Colling the dotenv.config
 dotenv.config()
 
-// Create an instance of the `Bot` class and pass your authentication token to it.
+// Create an instance of the `Bot` class and pass your token to it.
 export const bot = new Bot(process.env.BOT_TOKEN_KEY);// <-- put your unique token;
 
-// Importing a node cron from "node-cron" library
+// Importing a node cron from node-cron library
 
 import cron from "node-cron"//This node cron helps with creating and managing schedules.
 
