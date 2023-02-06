@@ -28,7 +28,7 @@ bot.command("start", async ctx => {
             reply_to_message_id: ctx.message.message_id,
             reply_markup: new InlineKeyboard().url(
                 "क्लीक करे ",
-                `https://hindi.idronline.org/feed/`,
+                `https://hindi.idronline.org/`,
             )
         })
     //add new users to DB
