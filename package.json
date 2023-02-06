@@ -10,12 +10,13 @@
   "author": "Megha",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.0.3",
     "fs-extra": "^11.1.0",
     "grammy": "^1.13.0",
+    "mongodb": "^4.13.0",
     "node-cron": "^3.0.2",
     "rss-parser": "^3.12.0"
   },
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/meghajibhakate/Idr_online-Hindi-bot-.git"
