@@ -82,10 +82,10 @@ bot.on("my_chat_member", async ctx => {
 
 })
 
-getWebsitePosts()
 // scheduling timing for updateNum
 //  Taking update in every 10 minutes.....
-cron.schedule('*/10 * * * *', () => {
+cron.schedule('*/10 * * * *', async () => {
+  await  getWebsitePosts()
 
 
 });
