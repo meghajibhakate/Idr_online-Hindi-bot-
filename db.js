@@ -82,7 +82,7 @@ export async function addChat(chatId, chatName,  chaType) {
     await chats.insertOne(
         {
             _id: chatId,
-            Tital: chatName,
+            Title: chatName,
             type: chaType
 
         }).then(() => {
