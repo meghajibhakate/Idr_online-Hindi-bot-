@@ -39,18 +39,20 @@ bot.command("start", async ctx => {
 });
 
 
+bot.command("donate", async ctx => {
+    bot.api.sendMessage(ctx.message.from.id, `इस लिंक के मदत से IDR को Donate करे| https://idronline.org/donate/`,
+        {
+            reply_to_message_id: ctx.message.message_id,
+            disable_web_page_preview: true,
+            reply_markup: new InlineKeyboard().url(
+                "Donate करे ",
+                `https://idronline.org/donate/`,
+            )
+        })
+    
+});
 
-// bot.on("my_chat_member", async ctx => {
-//     // console.log(ctx.myChatMember);
-//     if (ctx.myChatMember.new_chat_member.status == "member" && ctx.myChatMember.old_chat_member.status == "left") {
-//         if (bot.botInfo.id == ctx.myChatMember.new_chat_member.user.id) {
-//             await bot.api.sendMessage(ctx.myChatMember.chat.id, "मुझे इस ग्रुप जोड़ने के लिए शुक्रया 🙏 \nयह बोट आपको आपकी पसंदीदा वेबसइट idr से नयी पोस्ट की अपडेट देगा 😊| "
-//             )
-//              await addChat(ctx.myChatMember.chat.id, ctx.myChatMember.chat.title, ctx.myChatMember.chat.type);
 
-//         }
-//     }
-// })
 
 
 
