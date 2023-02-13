@@ -24,17 +24,18 @@ async function main() {
 const db = await main();
 
 const posts = db.collection("post")
+// const guids = db.collection("guid")
 
 
-export async function updatePost(num) {
-
+export async function updatePost(id) {
     //Here I am updating data
-    await posts.updateOne({
-        _id: "postData"
-    },
+    await posts.updateOne
+        ({
+            _id: "postData"
+        },
         {
             $set: {
-                totalpost: num
+                guidIndex:id
             }
         }).then(() => {
             return true;
@@ -43,8 +44,6 @@ export async function updatePost(num) {
             return false;
         });
 }
-
-// getPost(11)
 
 export async function getPost() {
     const postData = await posts.findOne({

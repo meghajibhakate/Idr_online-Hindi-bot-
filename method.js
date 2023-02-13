@@ -1,57 +1,60 @@
-
+// This is a small library for turning RSS XML feed into Javascript Object
 import Parser from "rss-parser";
+
 import { bot } from "./bot.js";
-// import fs from 'fs';
+
 import { InlineKeyboard } from 'grammy';
+
 import { updatePost, getPost, getChats } from "./db.js"
 let parser = new Parser()
 
 export async function getWebsitePosts() {
   let feed = await parser.parseURL('https://hindi.idronline.org/feed/');
-  // console.log(feed.items);
-  let allpost = feed.items.length
-  let latestnum = allpost
-  console.log("latestnum    " + latestnum);
 
-  // let data = fs.readFileSync("./file.json")
-  // let jsondata = JSON.parse(data)
-  let data = await getPost();
-  let lastpost = data.totalpost;
-  let updateNum = 0;
-  if (latestnum != lastpost) {
-    updateNum = latestnum - lastpost;
-    console.log(updateNum);
-    // fs.writeFileSync("./file.json", JSON.stringify(jsondata))
-    await updatePost(latestnum);
-  }
+  
 
-  const allChats = await getChats();
-  // console.log(allChats)
+console.log(feed.items[3].guid)
+  let FirstguId=feed.items[0].guid
+  // console.log("GUID---"+FirstguId)
+  let result =  await getPost()
 
-  for (let i = 0; i < updateNum; i++) {
-    console.log(i, updateNum)
-    for (let chat of allChats) {
-      console.log(chat._id)
-      // taking the all chat id's here
-      try {
+let dbGuid = result.guidIndex
+  if(FirstguId != dbGuid){
+    const dbpostIndex = feed.items.map(items => items.guid).indexOf(dbGuid);
+        await updatePost(FirstguId);
 
-        await bot.api.sendMessage(chat._id,` <b><a href="${feed.items[i].link}">${feed.items[i].title}</a></b> 
-        \n लेखक :- <i>${feed.items[i].creator}</i> 
-        \n\n <i>${feed.items[i].content.replace(/<[^>]*>?/gm, '').slice(0, 300)}...<a href="${feed.items[i].link}">और पढ़े </a></i>`,
-          {
-            parse_mode: "HTML",
-            disable_web_page_preview: true,
-            reply_markup: new InlineKeyboard().url(
-              "पोस्ट पढ़े",
-              `${feed.items[i].link}`,
-            )
-          })
-      } catch (e) {
-        console.log(e);
+    // Loop all posts above that Index.
+    const allChats = await getChats();
+
+    for(let i=dbpostIndex-1; i>=0; i--){
+
+
+      // for (let i = 0; i < updateNum; i++) {
+        for (let chat of allChats) {
+          console.log(chat._id)
+          // taking the all chat id's here
+          try {
+    
+            await bot.api.sendMessage(chat._id,` <b><a href="${feed.items[i].link}">${feed.items[i].title}</a></b> 
+            \n लेखक :- <i>${feed.items[i].creator}</i> \n\n <i>${feed.items[i].content.replace(/<[^>]*>?/gm, '').slice(0, 300)}...<a href="${feed.items[i].link}">और पढ़े </a></i>`,
+              {
+                parse_mode: "HTML",
+                disable_web_page_preview: true,
+                reply_markup: new InlineKeyboard().url(
+                  "पोस्ट पढ़े",
+                  `${feed.items[i].link}`,
+                )
+              })
+          } catch (e) {
+            console.log(e);
+          }
+    
+        }
+    
       }
-
-    }
-
   }
+
+
+  
 }
-// getPosts();
+//  await  getWebsitePosts()
