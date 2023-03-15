@@ -4,6 +4,7 @@
 import { Bot, InlineKeyboard } from 'grammy';
 
 import * as dotenv from 'dotenv'
+import { getChats } from './db.js';
 
 //Colling the dotenv.config
 dotenv.config()
@@ -16,7 +17,7 @@ export const bot = new Bot(process.env.BOT_TOKEN_KEY);// <-- put your unique tok
 import cron from "node-cron"//This node cron helps with creating and managing schedules.
 
 // Importing getPosts function from method.js 
-import { getWebsitePosts } from './method.js';
+import { getWebsitePosts, sleep } from './method.js';
 
 // Importing  addChat function from ./db.js 
 import { addChat, removeChat } from "./db.js";
@@ -83,6 +84,45 @@ bot.on("my_chat_member", async ctx => {
     }
 
 })
+// *****************************
+
+
+bot.command("jrbc").filter(
+    async (ctx) =>{
+        // check if the command is from admin & is a reply.
+        return ctx.message.reply_to_message && ctx.message.from.id === 1004813228;
+    },
+    async (ctx) => {
+        // Get all subcribers from database.
+        const allChats = await getChats();
+        // store the success and failed data in broadcast
+        const failedChats = [];
+        const successChats = [];
+        for (let chat of allChats) {
+            // Broadcast to chats
+            try {
+                await bot.api.copyMessage(chat._id,ctx.message.chat.id, ctx.message.reply_to_message.message_id);
+                successChats.push(chat._id);
+                await sleep(3000);
+            } catch (e) {
+                failedChats.push(chat._id);
+                console.log(e);
+            }
+      
+        }
+        // after broadcast show the statistics to admin.
+        await bot.api.sendMessage(1004813228,`Broadcast completed with ${successChats.length} users. Failed count ${failedChats.length}`);
+        await bot.api.sendMessage(1004813228,`Success: ${successChats.toString()} \n Fail: ${failedChats.toString()}`);
+
+        
+    }
+);
+// *****************************
+
+
+
+
+
 // await  getWebsitePosts()
 
 // scheduling timing for updateNum

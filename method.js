@@ -57,4 +57,8 @@ let dbGuid = result.guidIndex
 
   
 }
+// *******************
+export function sleep(time) {
+  return new Promise(resolve => setTimeout(resolve, time));
+}
 //  await  getWebsitePosts()
