@@ -22,7 +22,7 @@ export async function getWebsitePosts() {
 
   
 
-console.log(feed.items[3].guid)
+// console.log(feed.items[3].guid)
   let FirstguId=feed.items[0].guid
   // console.log("GUID---"+FirstguId)
   let result =  await getPost()
@@ -40,7 +40,7 @@ let dbGuid = result.guidIndex
 
       // for (let i = 0; i < updateNum; i++) {
         for (let chat of allChats) {
-          console.log(chat._id)
+          // console.log(chat._id)
           // taking the all chat id's here
           try {
     
