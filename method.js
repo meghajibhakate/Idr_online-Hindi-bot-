@@ -4,9 +4,18 @@ import Parser from "rss-parser";
 import { bot } from "./bot.js";
 
 import { InlineKeyboard } from 'grammy';
-
+// import {sleep}
 import { updatePost, getPost, getChats } from "./db.js"
 let parser = new Parser()
+
+
+// *******************
+export function sleep(time) {
+  return new Promise(resolve => setTimeout(resolve, time));
+}
+// *******************
+
+
 
 export async function getWebsitePosts() {
   let feed = await parser.parseURL('https://hindi.idronline.org/feed/');
@@ -45,6 +54,9 @@ let dbGuid = result.guidIndex
                   `${feed.items[i].link}`,
                 )
               })
+
+              await sleep(2000);
+
           } catch (e) {
             console.log(e);
           }
@@ -57,8 +69,5 @@ let dbGuid = result.guidIndex
 
   
 }
-// *******************
-export function sleep(time) {
-  return new Promise(resolve => setTimeout(resolve, time));
-}
+
 //  await  getWebsitePosts()
