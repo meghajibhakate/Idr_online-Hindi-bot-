@@ -1,7 +1,7 @@
 //here we are Importing a BOT and InlineKeyboard class from Grammy library
 // Bot this is a class
 // InlineKeyboard this is a class
-import { Bot, InlineKeyboard } from 'grammy';
+import { Bot, InlineKeyboard , GrammyError,  HttpError } from 'grammy';
 
 import * as dotenv from 'dotenv'
 import { getChats } from './db.js';
